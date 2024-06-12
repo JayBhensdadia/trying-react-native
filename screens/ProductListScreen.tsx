@@ -5,6 +5,9 @@ import { addToCart, getCartItems } from '@/services/cart-service';
 import { useFocusEffect } from '@react-navigation/native';
 import { AntDesign } from '@expo/vector-icons';
 
+import { CustomButton } from '@/components/ui/CustomButton';
+import ProductComponent from '@/components/Product';
+
 const ProductListScreen = ({ navigation, route }: { navigation: any, route: any; }) => {
     const [products, setProducts] = useState<any[]>([]);
     const { userId } = route.params;
@@ -60,9 +63,15 @@ const ProductListScreen = ({ navigation, route }: { navigation: any, route: any;
                             </View>
                         )}
                     </Pressable>
-                    <Pressable onPress={handleLogout}>
-                        <Text style={styles.headerButton}>Logout</Text>
+
+                    <Pressable onPress={handleLogout} style={[styles.headerButton, { flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }]}>
+                        <AntDesign name="logout" size={24} color="black" />
+
                     </Pressable>
+
+
+
+
                 </View>
             ),
         });
@@ -74,31 +83,20 @@ const ProductListScreen = ({ navigation, route }: { navigation: any, route: any;
                 data={products}
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={({ item }) => (
-                    <View style={styles.productContainer}>
-                        <View style={{ display: 'flex', flexDirection: 'row', gap: 10 }}>
 
-                            {/* <Text style={styles.productPrice}>{item.imgUrl}</Text> */}
-                            <Image source={{ uri: item.imgUrl }} style={{ width: 150, height: 150, borderWidth: 10, borderRadius: 20, backgroundColor: '#fff' }} />
+                    <ProductComponent
+                        id={item.id}
+                        name={item.name}
+                        description={item.description}
+                        price={item.price}
+                        imgUrl={item.imgUrl}
+                        onAddToCart={async () => {
+                            await addToCart(item.id, userId, 1);
+                            setCartItemsCount(prevCount => prevCount + 1);
+                        }}
+                    />
 
-                            <View style={{ display: 'flex' }}>
-                                <Text style={styles.productName}>{item.name}</Text>
-                                <Text style={styles.productDescription}>{item.description}</Text>
-                                <Text style={styles.productPrice}>${item.price.toFixed(2)}</Text>
 
-                                <Pressable
-                                    style={styles.button}
-                                    onPress={async () => {
-                                        await addToCart(item.id, userId, 1);
-                                        setCartItemsCount(prevCount => prevCount + 1);
-                                    }}>
-
-                                    <Text style={styles.btnText}>Add to Cart</Text>
-                                    <AntDesign name="shoppingcart" size={24} color="black" style={styles.btnText} />
-                                </Pressable>
-                            </View>
-                        </View>
-
-                    </View>
                 )}
             />
         </View>
@@ -126,38 +124,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         padding: 5
     },
-    productContainer: {
-        borderWidth: 1,
-        borderRadius: 10,
-        padding: 10,
-        marginBottom: 10,
-    },
-    productName: {
-        fontSize: 20,
-        fontWeight: 'bold',
-    },
-    productDescription: {
-        fontSize: 16,
-        color: 'gray',
-    },
-    productPrice: {
-        fontSize: 18,
-        fontWeight: 'bold',
-        marginVertical: 10,
-    },
-    button: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        paddingVertical: 10,
-        borderRadius: 20,
-        minWidth: 200,
-        elevation: 3,
-        backgroundColor: 'black',
-        display: 'flex',
-        flexDirection: 'row',
-        gap: 5
 
-    },
     btnText: {
         fontWeight: 'bold',
         letterSpacing: 0.25,
