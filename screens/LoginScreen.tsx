@@ -1,8 +1,12 @@
-// src/screens/LoginScreen.tsx
+
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, Alert, StyleSheet, Pressable } from 'react-native';
 import { login } from '@/services/auth-service';
 import MyButton from '@/components/ui/MyButton';
+import { CustomButton } from '@/components/ui/CustomButton';
+import { CustomInput } from '@/components/ui/CustomInput';
+import { Header } from '@/components/ui/Header';
+import { SubHeader } from '@/components/ui/SubHeader';
 
 const LoginScreen = ({ navigation }: { navigation: any; }) => {
     const [username, setUsername] = useState('');
@@ -25,37 +29,37 @@ const LoginScreen = ({ navigation }: { navigation: any; }) => {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.header}>Login</Text>
-            <Text style={styles.subHeader}>goot to see you again!</Text>
-            <TextInput
-                placeholder="Username"
+
+            <Header title='Login' />
+            <SubHeader title='Good to see you again!' />
+
+
+            <CustomInput
+                placeholder='Username'
                 value={username}
-                onChangeText={setUsername}
-                style={styles.input}
+                setValue={setUsername}
+                type='text'
             />
-            <TextInput
-                placeholder="Password"
+
+
+            <CustomInput
+                placeholder='Password'
                 value={password}
-                onChangeText={setPassword}
-                secureTextEntry
-                style={styles.input}
+                setValue={setPassword}
+                type='password'
             />
 
-            <Pressable onPress={handleLogin} style={styles.button}>
-                <Text style={styles.btnText}>Login</Text>
-            </Pressable>
+
+            <CustomButton onPress={handleLogin} title='Login' varient='default' />
 
 
-            <Pressable onPress={() => navigation.navigate('RegisterScreen')} style={styles.backButton}   >
-                <Text style={styles.backBtnText} >don't have account? Register</Text>
-            </Pressable>
+            <CustomButton onPress={() => navigation.navigate('RegisterScreen')} title='dont have account? Register' varient='outline' />
 
-            <Pressable onPress={() => navigation.navigate('Main')} style={styles.backButton}   >
-                <Text style={styles.backBtnText} >{`back to main app`}</Text>
-            </Pressable>
 
-            {/* <MyButton title="Login" onPress={handleLogin} /> */}
-            {/* <MyButton title="Register" onPress={() => navigation.navigate('RegisterScreen')} /> */}
+
+            <CustomButton onPress={() => navigation.navigate('Main')} title='back to main app!' varient='outline' />
+
+
         </View>
     );
 };
@@ -70,59 +74,8 @@ const styles = StyleSheet.create({
         gap: 20,
         padding: 20
     },
-    header: {
-        fontSize: 36,
-        fontWeight: 'bold',
-        textAlign: 'center',
-        paddingHorizontal: 20,
-        paddingTop: 20
-    },
-    subHeader: {
-        fontWeight: 'bold',
-        textAlign: 'center',
-        paddingBottom: 30
-    },
-    input: {
-        borderWidth: 1,
-        borderRadius: 20,
-        padding: 10
-    },
-    button: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        paddingVertical: 10,
-        borderRadius: 20,
-        elevation: 3,
-        backgroundColor: 'black',
 
-    },
-    btnText: {
-        fontWeight: 'bold',
-        letterSpacing: 0.25,
-        color: 'white',
-    },
-    btnContainer: {
-        display: 'flex',
-        flexDirection: 'row',
-        gap: 10,
-        padding: 10,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    backButton: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        paddingVertical: 10,
-        borderRadius: 20,
-        borderColor: 'black',
-        borderWidth: 1,
-        marginTop: 10,
-    },
-    backBtnText: {
-        fontWeight: 'bold',
-        letterSpacing: 0.25,
-        color: 'black',
-    },
+
 });
 
 

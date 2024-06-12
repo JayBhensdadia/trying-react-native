@@ -2,6 +2,11 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, Alert, Switch, StyleSheet, Pressable } from 'react-native';
 import { register } from '@/services/auth-service';
+import { Header } from '@/components/ui/Header';
+import { SubHeader } from '@/components/ui/SubHeader';
+import { CustomInput } from '@/components/ui/CustomInput';
+import { CustomSwitch } from '@/components/ui/CustomSwitch';
+import { CustomButton } from '@/components/ui/CustomButton';
 
 const RegisterScreen = ({ navigation }: { navigation: any; }) => {
     const [username, setUsername] = useState('');
@@ -21,31 +26,31 @@ const RegisterScreen = ({ navigation }: { navigation: any; }) => {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.header}>Register</Text>
-            <Text style={styles.subHeader}>nice to have you onboard!</Text>
-            <TextInput
+            <Header title='Register' />
+            <SubHeader title='Nice to have you onboard!' />
+
+            <CustomInput
                 placeholder="Username"
                 value={username}
-                onChangeText={setUsername}
-                style={styles.input}
+                setValue={setUsername}
+                type='text'
             />
-            <TextInput
+            <CustomInput
                 placeholder="Password"
                 value={password}
-                onChangeText={setPassword}
-                secureTextEntry
-                style={styles.input}
+                setValue={setPassword}
+                type='password'
+
             />
-            <View style={[styles.switchContainer, styles.input]}>
-                <Text>is Admin?</Text>
-                <Switch value={isAdmin} onValueChange={setIsAdmin} />
-            </View>
-            <Pressable onPress={handleRegister} style={styles.button}>
-                <Text style={styles.btnText}>Register</Text>
-            </Pressable>
-            <Pressable onPress={() => navigation.navigate('LoginScreen')} style={styles.backButton}>
-                <Text style={styles.backBtnText}>Back to Login</Text>
-            </Pressable>
+
+            <CustomSwitch title='is Admin?' value={isAdmin} setValue={setIsAdmin} />
+
+
+            <CustomButton title='Register' onPress={handleRegister} varient='default' />
+
+
+            <CustomButton title='Back to Login' onPress={() => navigation.navigate('LoginScreen')} varient='outline' />
+
         </View>
     );
 };
@@ -59,56 +64,7 @@ const styles = StyleSheet.create({
         padding: 20,
         marginTop: 150
     },
-    subHeader: {
-        fontWeight: 'bold',
-        textAlign: 'center',
-        paddingBottom: 30
-    },
-    header: {
-        fontSize: 36,
-        fontWeight: 'bold',
-        textAlign: 'center',
-        paddingHorizontal: 20,
-        paddingTop: 20,
-    },
-    input: {
-        borderWidth: 1,
-        borderRadius: 20,
-        padding: 10,
-    },
-    switchContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        paddingVertical: 10,
-    },
-    button: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        paddingVertical: 10,
-        borderRadius: 20,
-        elevation: 3,
-        backgroundColor: 'black',
-    },
-    btnText: {
-        fontWeight: 'bold',
-        letterSpacing: 0.25,
-        color: 'white',
-    },
-    backButton: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        paddingVertical: 10,
-        borderRadius: 20,
-        borderColor: 'black',
-        borderWidth: 1,
-        marginTop: 10,
-    },
-    backBtnText: {
-        fontWeight: 'bold',
-        letterSpacing: 0.25,
-        color: 'black',
-    },
+
 });
 
 export default RegisterScreen;

@@ -5,6 +5,8 @@ import { addToCart, getCartItems } from '@/services/cart-service';
 import { useFocusEffect } from '@react-navigation/native';
 import { AntDesign } from '@expo/vector-icons';
 
+import { CustomButton } from '@/components/ui/CustomButton';
+
 const ProductListScreen = ({ navigation, route }: { navigation: any, route: any; }) => {
     const [products, setProducts] = useState<any[]>([]);
     const { userId } = route.params;
@@ -60,9 +62,15 @@ const ProductListScreen = ({ navigation, route }: { navigation: any, route: any;
                             </View>
                         )}
                     </Pressable>
-                    <Pressable onPress={handleLogout}>
-                        <Text style={styles.headerButton}>Logout</Text>
+
+                    <Pressable onPress={handleLogout} style={[styles.headerButton, { flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }]}>
+                        <AntDesign name="logout" size={24} color="black" />
+
                     </Pressable>
+
+
+
+
                 </View>
             ),
         });
