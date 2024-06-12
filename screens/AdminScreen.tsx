@@ -1,6 +1,8 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { View, Text, TextInput, FlatList, StyleSheet, Pressable, Modal, TouchableOpacity, Image } from 'react-native';
 import { getProducts, addProduct, updateProduct, deleteProduct } from '@/services/product-service';
+import ProductComponent from '@/components/Product';
+import { AntDesign } from '@expo/vector-icons';
 
 const AdminScreen = ({ navigation }: { navigation: any; }) => {
     const [products, setProducts] = useState<any[]>([]);
@@ -33,12 +35,18 @@ const AdminScreen = ({ navigation }: { navigation: any; }) => {
         navigation.setOptions({
             headerRight: () => (
                 <View style={{ display: 'flex', flexDirection: 'row' }}>
-                    <TouchableOpacity onPress={() => setShowAddModal(true)}>
-                        <Text style={styles.headerButton}>Add Product</Text>
+                    <TouchableOpacity onPress={() => setShowAddModal(true)} style={[styles.headerButton, { flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }]}>
+                        <AntDesign name="pluscircleo" size={24} color="black" />
+                        {/* <Text style={styles.headerButton}>Add Product</Text> */}
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={handleLogout}>
+
+                    <TouchableOpacity onPress={handleLogout} style={[styles.headerButton, { flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }]}>
+                        <AntDesign name="logout" size={24} color="black" />
+
+                    </TouchableOpacity>
+                    {/* <TouchableOpacity onPress={handleLogout}>
                         <Text style={styles.headerButton}>logout</Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                 </View>
             ),
         });
@@ -96,39 +104,18 @@ const AdminScreen = ({ navigation }: { navigation: any; }) => {
                 data={products}
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={({ item }) => (
-                    <View style={styles.productContainer}>
-
-                        <View style={{ display: 'flex', flexDirection: 'row', gap: 10 }}>
-
-                            {/* <Text style={styles.productPrice}>{item.imgUrl}</Text> */}
-                            <Image source={{ uri: item.imgUrl }} style={{ width: 150, height: 150, borderWidth: 10, borderRadius: 20, backgroundColor: '#fff' }} />
-
-                            <View style={{ display: 'flex' }}>
-                                <Text style={styles.productName}>{item.name}</Text>
-                                <Text style={styles.productDescription}>{item.description}</Text>
-                                <Text style={styles.productPrice}>${item.price.toFixed(2)}</Text>
-
-                                <Pressable style={styles.updateButton} onPress={() => openUpdateModal(item)}>
-                                    <Text style={styles.btnText}>Update</Text>
-                                </Pressable>
-                                <Pressable style={styles.deleteButton} onPress={() => handleDeleteProduct(item.id)}>
-                                    <Text style={styles.btnText}>Delete</Text>
-                                </Pressable>
-                            </View>
-                        </View>
 
 
-                        {/* <Text style={styles.productName}>{item.name}</Text>
-                        <Text style={styles.productDescription}>{item.description}</Text>
-                        <Text style={styles.productPrice}>${item.price}</Text>
-                        <Text style={styles.productPrice}>{item.imgUrl}</Text>
-                        <Pressable style={styles.updateButton} onPress={() => openUpdateModal(item)}>
-                            <Text style={styles.btnText}>Update</Text>
-                        </Pressable>
-                        <Pressable style={styles.deleteButton} onPress={() => handleDeleteProduct(item.id)}>
-                            <Text style={styles.btnText}>Delete</Text>
-                        </Pressable> */}
-                    </View>
+                    <ProductComponent
+                        id={item.id}
+                        name={item.name}
+                        description={item.description}
+                        price={item.price}
+                        imgUrl={item.imgUrl}
+                        onUpdate={() => openUpdateModal(item)}
+                        onDelete={() => handleDeleteProduct(item.id)}
+                    />
+
                 )}
             />
             <Modal
@@ -232,9 +219,8 @@ const styles = StyleSheet.create({
         marginLeft: 10,
         borderWidth: 1,
         borderRadius: 10,
-        width: 120,
         textAlign: 'center',
-        padding: 5
+        padding: 10
     },
     input: {
         borderWidth: 1,
